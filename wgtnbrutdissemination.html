@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<head>
+  <title>wgtnbrutdissem</title>
+   <link rel="stylesheet" href="https://use.typekit.net/ytc0lkh.css" />
+  <style>
+      body {
+        background-color: rgb(236, 230, 62);
+      }
+      .header {
+        position: fixed;
+      }
+      #more {
+        color: rgb(207, 62, 62);
+        background-color: rgb(236, 230, 62);
+        border-style: solid;
+        border-width: 3px;
+        border-color: rgb(207, 62, 62);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 30px;
+        display: inline-block;
+        justify-content: top;
+        align-content: top;
+        transition: all 0.1s ease;
+        cursor: pointer;
+        padding: 0;
+        margin-top: 10px;
+        margin-left: 30px;
+      }
+      #less {
+        color: rgb(207, 62, 62);
+        border: none;
+        outline: none;
+        background-color: rgb(183, 178, 175);
+        font-size: 30px;
+        width: 25px;
+        height: 25px;
+        transition: all 0.1s ease;
+        justify-content: top;
+        align-content: top;
+        padding: 0;
+        cursor: pointer;
+        align-items: right;
+        font-family: "roc-grotesk-wide", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+      }
+      #more:hover {
+        background-color: rgb(236, 230, 62);
+        color: white;
+        border-color: white;
+      }
+      #less:hover {
+        color: white;
+      }
+       #sidebar {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 30%;
+        height: 100%;
+        background-color: rgb(183, 178, 175);
+        padding: 5px;
+      }
+
+      .halfbar {
+        width: 72%;
+        display: inline-block;
+        overflow-wrap: break-word;
+        line-height: 1.5;
+        font-family: "roc-grotesk-wide", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+        transition: all 0.1s ease;
+      }
+      .halfbartwo {
+        width: 18%;
+        height: 5px;
+        display: inline-block;
+        vertical-align: top;
+        text-align: right;
+        margin-top: 15px;
+      }
+      .link {
+        text-decoration: none;
+        line-height: 1.5;
+        font-family: "roc-grotesk-wide", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+        transition: all 0.1s ease;
+        color: rgb(207, 62, 62);
+      }
+      .link:hover {
+        color: white;
+        cursor: pointer;
+      }
+  </style>
+</head>
+<body class="body">
+  <div class="header">
+    <button id="more">...</button>
+  </div>
+  <div id="sidebar">
+    <div class="halfbar">
+      <h2 class="halfbar">
+        <a href="wgtnbrut2.html" class="link">wgtnbrut</a>
+          <br />
+          <a href="wgtnbrutarchive.html" class="link">archive</a><br />
+          <a href="wgtnbrutdissemination.html" class="link">dissemination</a>
+          <br />
+          <a href="wgtnbrutabt.html" class="link">about</a><br />
+      </h2>
+    </div>
+    <div class="halfbartwo">
+      <button id="less">x</button>
+    </div>
+  </div>
+  <div>
+  dissemenation
+  <script>
+    const showBtn = document.getElementById("more");
+    const hideBtn = document.getElementById("less");
+    const contentDiv = document.getElementById("sidebar");
+
+    showBtn.addEventListener("click", () => {
+      contentDiv.style.display = "block";
+    });
+
+    hideBtn.addEventListener("click", () => {
+      contentDiv.style.display = "none";
+    });
+  </script>
+</body>

@@ -1,0 +1,1038 @@
+<!doctype html>
+<head>
+  <title>wgtnbrutarchive</title>
+  <link rel="stylesheet" href="https://use.typekit.net/ytc0lkh.css" />
+  <style>
+    body {
+      background-color: rgb(236, 230, 62);
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    #more {
+      color: rgb(207, 62, 62);
+      background-color: rgb(236, 230, 62, 0);
+      border-style: solid;
+      border-width: 3px;
+      border-color: rgb(207, 62, 62);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 30px;
+      display: inline-block;
+      justify-content: top;
+      align-content: top;
+      transition: all 0.1s ease;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 38px;
+      margin-top: 29px;
+      z-index: 1;
+    }
+    #less {
+      color: rgb(207, 62, 62);
+      border: none;
+      outline: none;
+      background-color: rgb(183, 178, 175, 0);
+      font-size: 30px;
+      width: 25px;
+      height: 25px;
+      transition: all 0.1s ease;
+      justify-content: top;
+      align-content: top;
+      padding: 0;
+      cursor: pointer;
+      align-items: right;
+      font-family: "roc-grotesk-wide", sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      z-index: 1;
+    }
+    #more:hover {
+      background-color: rgb(236, 230, 62, 0);
+      color: white;
+      border-color: white;
+    }
+    #less:hover {
+      color: white;
+    }
+    #sidebar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 30%;
+      height: 100%;
+      background-color: rgb(183, 178, 175);
+      padding: 5px;
+      z-index: 1;
+    }
+
+    .halfbar {
+      width: 72%;
+      display: inline-block;
+      overflow-wrap: break-word;
+      line-height: 1.5;
+      font-family: "roc-grotesk-wide", sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      transition: all 0.1s ease;
+      z-index: 1;
+    }
+    .halfbartwo {
+      width: 18%;
+      height: 5px;
+      display: inline-block;
+      vertical-align: top;
+      text-align: right;
+      margin-top: 15px;
+      z-index: 1;
+    }
+    .link {
+      text-decoration: none;
+      line-height: 1.5;
+      font-family: "roc-grotesk-wide", sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      transition: all 0.1s ease;
+      color: rgb(207, 62, 62);
+      z-index: 1;
+    }
+    .link:hover {
+      color: white;
+      cursor: pointer;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      margin-top: 100px;
+      margin-left: 50px;
+      margin-right: 50px;
+    }
+    .image-wide {
+      flex: 0 0 28%;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 0.5%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .image-wider {
+      flex: 0 0 32%;
+      position: relative;
+      box-sizing: border-box;
+      padding: 0.5%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .image-tall {
+      flex: 0 0 16%;
+      position: relative;
+      box-sizing: border-box;
+      padding: 0.5%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .image-taller {
+      flex: 0 0 18%;
+      position: relative;
+      box-sizing: border-box;
+      padding: 0.5%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .image-normal {
+      flex: 0 0 25%;
+      position: relative;
+      box-sizing: border-box;
+      padding: 0.5%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .normal {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .textbox {
+      position: absolute;
+      bottom: 0%;
+      padding: 10px;
+      color: rgb(236, 230, 62);
+      font-family: "roc-grotesk-wide", sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      text-shadow:
+        0 0 7px rgb(207, 62, 62),
+        0 0 10px rgb(207, 62, 62),
+        0 0 21px rgb(207, 62, 62),
+        0 0 42px rgb(207, 62, 62),
+        0 0 82px rgb(207, 62, 62);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .textbox.active {
+      opacity: 1;
+    }
+
+    .image-wide:not(.big):hover .textbox {
+      opacity: 1;
+    }
+    .image-wider:not(.big):hover .textbox {
+      opacity: 1;
+    }
+
+    .image-tall:not(.big):hover .textbox {
+      opacity: 1;
+    }
+
+    .image-taller:not(.big):hover .textbox {
+      opacity: 1;
+    }
+
+    .image-normal:not(.big):hover .textbox {
+      opacity: 1;
+    }
+
+    [bloc].big {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      height: auto;
+      width: 38vw;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    div:not(.big) > .normal:hover {
+      filter: brightness(140%);
+    }
+
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 12, 72, 0.45);
+      display: none;
+      z-index: 999;
+    }
+
+    .backdrop.active {
+      display: block;
+    }
+
+    #exit {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      background: transparent;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    #exit.active {
+      display: block;
+    }
+
+    #exit:hover {
+      color: rgb(236, 230, 62);
+      border-color: rgb(236, 230, 62);
+    }
+
+    @media (max-width: 725px) {
+      [bloc].big {
+        width: 80vw;
+      }
+
+      .row {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    @media (max-width: 600px) {
+      #sidebar {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+      }
+      .row {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body class="body">
+  <div class="header">
+    <button id="more">...</button>
+  </div>
+
+  <div id="sidebar">
+    <div class="halfbar">
+      <h2 class="halfbar">
+        <a href="wgtnbrut2.html" class="link">wgtnbrut</a>
+        <br />
+        <a href="wgtnbrutarchive.html" class="link">archive</a><br />
+        <a href="wgtnbrutdissemination.html" class="link">dissemination</a>
+        <br />
+        <a href="wgtnbrutabt.html" class="link">about</a><br />
+      </h2>
+    </div>
+    <div class="halfbartwo">
+      <button id="less">x</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="backdrop" id="backdrop"></div>
+    <button id="exit" type="button" aria-label="Close enlarged image">x</button>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01781.jpg" alt="Image 1" />
+      <div class="textbox">
+        <p>41.30356 S 174.77046 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01787.jpg" alt="Image 2" />
+      <div class="textbox">
+        <p>41.29802 S 174.77588 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01783.jpg" alt="Image 3" />
+      <div class="textbox">
+        <p>41.30067 S 174.77417 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01796.jpg" alt="Image 4" />
+      <div class="textbox">
+        <p>
+          41.30356 S <br />
+          174.77046 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01786.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29802 S 174.77588 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01789.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.29685 S <br />
+          174.77695 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01790.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29685 S 174.77695 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01793.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.296873 S <br />
+          174.77757 E
+        </p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01796.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29706 S 174.77835 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01798.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.29527 S <br />
+          174.77796 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01799.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29527 S. 174.77796 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01800.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29527 S. 174.77796 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01801.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29555 S 174.77907 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01802.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29282 S 174.77847 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSCF0253.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29555 S 174.77907 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01804.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29282 S 174.77847 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01805.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29527 S. 174.77796 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01806.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31150 S 174.77899 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01808.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31054 S 174.77887 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01809.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28410 S 174.78008 E</p>
+        \
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01814.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29884 S 174.75516 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01816.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31287 S 174.78411 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01818.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28452 S 174.77730 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01820.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          42.31742 S <br />
+          174.79367 E
+        </p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01822.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>42.31742 S 174.79367 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01823.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>42.31742 S 174.79367 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01825.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>42.31742 S 174.79367 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01827.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31656 S 174.79444 E</p>
+      </div>
+    </div>
+    <div class="image-taller" bloc>
+      <img class="normal" src="pics/DSC01828.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.31656 S <br />
+          174.79444 E
+        </p>
+      </div>
+    </div>
+    <div class="image-taller" bloc>
+      <img class="normal" src="pics/DSC01829.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.31793 S <br />
+          174.79587 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wider" bloc>
+      <img class="normal" src="pics/DSC01830.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>42.31742 S 174.79367 E</p>
+      </div>
+    </div>
+    <div class="image-wider" bloc>
+      <img class="normal" src="pics/DSC01831.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31849 S 174.79515 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01832.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31849 S 174.79515 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01834.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31854 S 174.79469 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01837.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31817 S 174.79402 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01838.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31817 S 174.79402 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01839.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31817 S 174.79402 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01840.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.31817 <br />
+          S 174.79402 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01842.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31287 S 174.78411 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01843.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31287 S 174.78411 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01845.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.31230 S <br />
+          174.78393 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01846.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31035 S 174.78351 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01847.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31035 S 174.78351 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01848.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31270 S 174.78126 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01849.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31279 S 174.77987 S</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01850.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31362 S 174.78063 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01851.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.31335 S <br />
+          174.78209 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01874.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28571 S 174.76676 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01875.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28548 S 174.76756 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01876.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28715 S 174.76841 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01877.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28715 S 174.76841 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01878.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28421 S 174.76952 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01879.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28355 S 174.76959 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01880.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28177 S 174.77024 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01881.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28144 S 174.77064 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01883.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28209 S 174.76500 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01885.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28929 S 174.76339 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01886.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28897 S 174.76193 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01887.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28897 S 174.76193 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01888.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28897 S 174.76193 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01889.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.28897 S 174.76193 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01893.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.30465 S 174.77230 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01895.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29009 S 174.76123 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01896.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.29220 S <br />
+          174.76029 E
+        </p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01897.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29485 S 174.75874 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01898.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29565. S 174.75811 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01899.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29425 S 174.75939 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01900.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29425 S 174.75939 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01901.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.29414 S <br />
+          174.75962 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01902.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29884 S 174.75516 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01903.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29884 S 174.75516 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01904.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29752 S 174.7529 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01905.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29643 S 174.75691 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01908.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29539 S 174.76708 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01911.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29542 S 174.76649 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01912.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29542 S 174.76649 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01914.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29529 S 174.76597 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSC01915.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29527 S <br />174.76472 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01916.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29527 S 174.76472 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSC01917.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29527 S 174.76472 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01918.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29529 S 174.76597 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01920.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29532 S 174.76666 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01921.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29532 S 174.76666 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSC01922.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29590 S 174.76943 E</p>
+      </div>
+    </div>
+    <div class="image-wider" bloc>
+      <img class="normal" src="pics/DSC01923.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.29643 S 174.77054 E</p>
+      </div>
+    </div>
+    <div class="image-taller" bloc>
+      <img class="normal" src="pics/DSCF0216.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.30618 S <br />
+          174.77070 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wider" bloc>
+      <img class="normal" src="pics/DSCF0221.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.30741 S 173.7770 E</p>
+      </div>
+    </div>
+    <div class="image-taller" bloc>
+      <img class="normal" src="pics/DSCF0226.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.30745 <br />
+          S 174.77804 E
+        </p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSCF0228.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.30888 S 174.77828 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSCF0229.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31054 S 174.77887 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSCF0230.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31054 S 174.77887 E</p>
+      </div>
+    </div>
+    <div class="image-normal" bloc>
+      <img class="normal" src="pics/DSCF0232.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31150 S 174.77899 E</p>
+      </div>
+    </div>
+    <div class="image-taller" bloc>
+      <img class="normal" src="pics/DSCF0234.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.31305 <br />
+          S 174.77955 E
+        </p>
+      </div>
+    </div>
+    <div class="image-taller" bloc>
+      <img class="normal" src="pics/DSCF0236.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.21262 <br />
+          S 174.77969 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wider" bloc>
+      <img class="normal" src="pics/DSCF0239.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31362 S 174.77969</p>
+      </div>
+    </div>
+    <div class="image-wider" bloc>
+      <img class="normal" src="pics/DSCF0240.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31479 S 174.78026 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSCF0244.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31551 S 174.78060 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSCF0246.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31551 S 174.78060 E</p>
+      </div>
+    </div>
+    <div class="image-tall" bloc>
+      <img class="normal" src="pics/DSCF0247.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31551 S 174.78060 E</p>
+      </div>
+    </div>
+    <div class="image-wide" bloc>
+      <img class="normal" src="pics/DSCF0250.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31666 S 174.78089 E</p>
+      </div>
+    </div>
+    <div class="image-taller" bloc>
+      <img class="normal" src="pics/DSCF0251.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>
+          41.31811 S <br />
+          174.78128 E
+        </p>
+      </div>
+    </div>
+    <div class="image-wider" bloc>
+      <img class="normal" src="pics/DSCF0252.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>41.31811 S 174.78128 E</p>
+      </div>
+    </div>
+    <div class="image-wider" bloc>
+      <img class="normal" src="pics/DSCF0253.jpg" alt="Image 5" />
+      <div class="textbox">
+        <p>441.31811 S 174.78128 E</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const showBtn = document.getElementById("more");
+    const hideBtn = document.getElementById("less");
+    const contentDiv = document.getElementById("sidebar");
+    const row = document.querySelector(".row");
+    const wideimages = document.querySelectorAll("[bloc]");
+    const backdrop = document.getElementById("backdrop");
+    const exitBtn = document.getElementById("exit");
+
+    wideimages.forEach((image) => {
+      image.addEventListener("click", () => {
+        const isBig = image.classList.toggle("big");
+        backdrop.classList.toggle("active");
+        exitBtn.classList.toggle("active");
+        const textbox = image.querySelector(".textbox");
+        textbox.classList.toggle("active");
+
+        if (isBig) {
+          image.appendChild(exitBtn);
+        } else {
+          row.appendChild(exitBtn);
+        }
+      });
+    });
+
+    exitBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const bigImage = document.querySelector("[bloc].big");
+      if (bigImage) {
+        bigImage.classList.remove("big");
+        bigImage.querySelector(".textbox").classList.remove("active");
+      }
+      backdrop.classList.remove("active");
+      exitBtn.classList.remove("active");
+      row.appendChild(exitBtn);
+    });
+
+    backdrop.addEventListener("click", () => {
+      const bigImage = document.querySelector("[bloc].big");
+      if (bigImage) {
+        bigImage.classList.remove("big");
+        bigImage.querySelector(".textbox").classList.remove("active");
+      }
+      backdrop.classList.remove("active");
+      exitBtn.classList.remove("active");
+      row.appendChild(exitBtn);
+    });
+
+    showBtn.addEventListener("click", () => {
+      contentDiv.style.display = "block";
+    });
+
+    hideBtn.addEventListener("click", () => {
+      contentDiv.style.display = "none";
+    });
+  </script>
+</body>
